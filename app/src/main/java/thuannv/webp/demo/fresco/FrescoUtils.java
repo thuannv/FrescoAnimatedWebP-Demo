@@ -1,4 +1,4 @@
-package thuannv.webp.demo;
+package thuannv.webp.demo.fresco;
 
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
@@ -21,44 +21,14 @@ public final class FrescoUtils {
     private FrescoUtils() {
     }
 
-    public static class SimpleAnimationListener implements AnimationListener {
-
-        @Override
-        public void onAnimationStart(AnimatedDrawable2 drawable) {
-        }
-
-        @Override
-        public void onAnimationStop(AnimatedDrawable2 drawable) {
-        }
-
-        @Override
-        public void onAnimationReset(AnimatedDrawable2 drawable) {
-        }
-
-        @Override
-        public void onAnimationRepeat(AnimatedDrawable2 drawable) {
-        }
-
-        @Override
-        public void onAnimationFrame(AnimatedDrawable2 drawable, int frameNumber) {
-        }
-    }
-
-    private static ControllerListener<ImageInfo> newPlayOnceControllerListener() {
+    private static ControllerListener<ImageInfo> newPlayOnceControllerListener(final AnimationListener animationListener) {
         return new BaseControllerListener<ImageInfo>() {
             @Override
             public void onFinalImageSet(String id, @Nullable ImageInfo imageInfo, @Nullable Animatable anim) {
                 if (anim != null) {
                     if (anim instanceof AnimatedDrawable2) {
                         final AnimatedDrawable2 animatedDrawable = (AnimatedDrawable2) anim;
-                        animatedDrawable.setAnimationListener(new SimpleAnimationListener() {
-                            @Override
-                            public void onAnimationFrame(AnimatedDrawable2 drawable, int frameNumber) {
-                                if (frameNumber == drawable.getFrameCount() - 1) {
-                                    drawable.stop();
-                                }
-                            }
-                        });
+                        animatedDrawable.setAnimationListener(new PlayOnceAnimationListener(animationListener));
                     }
                     anim.start();
                 }
@@ -106,18 +76,30 @@ public final class FrescoUtils {
     }
 
     public static void playAnimationOnce(SimpleDraweeView simpleDraweeView, Uri uri) {
-        simpleDraweeView.setController(
-                Fresco.newDraweeControllerBuilder()
-                        .setUri(uri)
-                        .setAutoPlayAnimations(false)
-                        .setControllerListener(newPlayOnceControllerListener())
-                        .build()
-        );
+        playAnimationOnce(simpleDraweeView, uri, null);
     }
 
     public static void playAnimationOnce(SimpleDraweeView simpleDraweeView, String uri) {
         try {
             playAnimationOnce(simpleDraweeView, Uri.parse(uri));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void playAnimationOnce(SimpleDraweeView simpleDraweeView, Uri uri, AnimationListener listener) {
+        simpleDraweeView.setController(
+                Fresco.newDraweeControllerBuilder()
+                        .setUri(uri)
+                        .setAutoPlayAnimations(false)
+                        .setControllerListener(newPlayOnceControllerListener(listener))
+                        .build()
+        );
+    }
+
+    public static void playAnimationOnce(SimpleDraweeView simpleDraweeView, String uri, AnimationListener listener) {
+        try {
+            playAnimationOnce(simpleDraweeView, Uri.parse(uri), listener);
         } catch (Exception e) {
             e.printStackTrace();
         }

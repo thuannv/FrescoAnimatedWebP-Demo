@@ -3,8 +3,13 @@ package thuannv.webp.demo;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.fresco.animation.drawable.AnimatedDrawable2;
+
+import thuannv.webp.demo.fresco.FrescoUtils;
+import thuannv.webp.demo.fresco.SimpleAnimationListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,51 +21,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mSimpleDraweeView = findViewById(R.id.drawee);
-        //mSimpleDraweeView.setController(createController());
 
-        //FrescoUtils.playAnimationOnce(mSimpleDraweeView, "https://res.cloudinary.com/demo/image/upload/fl_awebp,q_40/bored_animation.webp");
+        // plays once
+//        FrescoUtils.playAnimationOnce(mSimpleDraweeView, "https://res.cloudinary.com/demo/image/upload/fl_awebp,q_40/bored_animation.webp");
 
+        /*
+        // plays automatically, stops after 5000ms
         FrescoUtils.playAnimationAuto(mSimpleDraweeView, "https://res.cloudinary.com/demo/image/upload/fl_awebp,q_40/bored_animation.webp");
+        new Handler().postDelayed(new Runnable() { @Override public void run() { FrescoUtils.stopAnimation(mSimpleDraweeView); } }, 5000);
+        */
 
-        new Handler().postDelayed(new Runnable() {
+        /**/
+        // play once with listener.
+        final SimpleAnimationListener listener = new SimpleAnimationListener() {
             @Override
-            public void run() {
-                FrescoUtils.stopAnimation(mSimpleDraweeView);
+            public void onAnimationStart(AnimatedDrawable2 drawable) {
+                Log.e("ThuanNV", "Animation starts");
             }
-        }, 5000);
-    }
+            @Override
+            public void onAnimationStop(AnimatedDrawable2 drawable) {
+                Log.e("ThuanNV", "Animation stops");
+            }
+        };
 
-//    private ControllerListener<ImageInfo> createControllerListener() {
-//        return new BaseControllerListener<ImageInfo>() {
-//            @Override
-//            public void onFinalImageSet(String id, @Nullable ImageInfo imageInfo, @Nullable Animatable anim) {
-//                if (anim != null) {
-//                    if (anim instanceof AnimatedDrawable2) {
-//                        final AnimatedDrawable2 animatedDrawable = (AnimatedDrawable2) anim;
-//                        final int frameCount = animatedDrawable.getFrameCount();
-//                        Log.e("thuannv", "animation frameCount = " + frameCount);
-//
-//                        animatedDrawable.setAnimationListener(new FrescoUtils.SimpleAnimationListener() {
-//                            @Override
-//                            public void onAnimationFrame(AnimatedDrawable2 drawable, int frameNumber) {
-//                                Log.e("thuannv", "animation onAnimationFrame = " + frameNumber);
-//                                if (frameNumber == frameCount - 1) {
-//                                    drawable.stop();
-//                                }
-//                            }
-//                        });
-//                    }
-//                    anim.start();
-//                }
-//            }
-//        };
-//    }
-//
-//    private DraweeController createController() {
-//        return Fresco.newDraweeControllerBuilder()
-//                .setUri("https://res.cloudinary.com/demo/image/upload/fl_awebp,q_40/bored_animation.webp")
-//                .setAutoPlayAnimations(false)
-//                .setControllerListener(createControllerListener())
-//                .build();
-//    }
+        FrescoUtils.playAnimationOnce(mSimpleDraweeView,"https://res.cloudinary.com/demo/image/upload/fl_awebp,q_40/bored_animation.webp", listener);
+        /**/
+    }
 }
