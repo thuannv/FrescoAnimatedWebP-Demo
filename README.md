@@ -33,6 +33,13 @@ final SimpleAnimationListener listener = new SimpleAnimationListener() {
 
 // Plays animation once with tracking animation states(start, frame, reset, repeat, stop)
 FrescoUtils.playAnimationOnce(mSimpleDraweeView, "https://res.cloudinary.com/demo/image/upload/fl_awebp,q_40/bored_animation.webp", listener);
+
+
+// from resources
+FrescoUtils.playAnimationAuto(mSimpleDraweeView, UriUtils.fromResource(R.drawable.dog_and_bone));
+
+// from assets
+FrescoUtils.playAnimationAuto(mSimpleDraweeView, UriUtils.fromAsset("palace.webp"));
 ```
 
 

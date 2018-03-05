@@ -1,15 +1,13 @@
 package thuannv.webp.demo;
 
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.fresco.animation.drawable.AnimatedDrawable2;
 
 import thuannv.webp.demo.fresco.FrescoUtils;
-import thuannv.webp.demo.fresco.SimpleAnimationListener;
+import thuannv.webp.demo.fresco.UriUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() { @Override public void run() { FrescoUtils.stopAnimation(mSimpleDraweeView); } }, 5000);
         */
 
-        /**/
+        /*
         // play once with listener.
         final SimpleAnimationListener listener = new SimpleAnimationListener() {
             @Override
@@ -45,6 +43,17 @@ public class MainActivity extends AppCompatActivity {
         };
 
         FrescoUtils.playAnimationOnce(mSimpleDraweeView,"https://res.cloudinary.com/demo/image/upload/fl_awebp,q_40/bored_animation.webp", listener);
-        /**/
+        */
+
+        // from resources
+        //FrescoUtils.playAnimationAuto(mSimpleDraweeView, UriUtils.fromResource(R.drawable.dog_and_bone));
+        //FrescoUtils.playAnimationAuto(mSimpleDraweeView, UriUtils.fromResource(R.drawable.aquarius));
+        //FrescoUtils.playAnimationAuto(mSimpleDraweeView, UriUtils.fromResource(R.drawable.car));
+        //FrescoUtils.playAnimationAuto(mSimpleDraweeView, UriUtils.fromResource(R.drawable.golds));
+
+        // from assets
+        //FrescoUtils.playAnimationAuto(mSimpleDraweeView, UriUtils.fromAsset("golds.webp"));
+        //FrescoUtils.playAnimationAuto(mSimpleDraweeView, UriUtils.fromAsset("towers.webp"));
+        FrescoUtils.playAnimationAuto(mSimpleDraweeView, UriUtils.fromAsset("palace.webp"));
     }
 }
