@@ -40,6 +40,39 @@ FrescoUtils.playAnimationAuto(mSimpleDraweeView, UriUtils.fromResource(R.drawabl
 
 // from assets
 FrescoUtils.playAnimationAuto(mSimpleDraweeView, UriUtils.fromAsset("palace.webp"));
+
+
+/**
+* for highly heavy Animated WebP, it is good to prefetch file and persist to disk when
+* application started, or somewhere else in background for smoothier user experience.
+*/
+final String uriString = "https://res.cloudinary.com/demo/image/upload/fl_awebp,q_40/bored_animation.webp";
+final Uri uri = Uri.parse(uriString);
+final ImagePipeline imagePipeline = Fresco.getImagePipeline();
+final ImageRequest request = ImageRequestBuilder.newBuilderWithSource(uri)
+        .setRequestListener(new BaseRequestListener() {
+            @Override
+            public void onRequestStart(ImageRequest request, Object callerContext, String requestId, boolean isPrefetch) {
+                Log.e(TAG, "prefetch started.");
+            }
+
+            @Override
+            public void onRequestFailure(ImageRequest request, String requestId, Throwable throwable, boolean isPrefetch) {
+                Log.e(TAG, "prefetch failed.");
+            }
+
+            @Override
+            public void onRequestSuccess(ImageRequest request, String requestId, boolean isPrefetch) {
+                Log.e(TAG, "prefetch succeeded.");
+
+                final Intent selfIntent = new Intent(MainActivity.this, MainActivity.class);
+                selfIntent.putExtra("uri", uriString);
+                startActivity(selfIntent);
+            }
+        })
+        .build();
+imagePipeline.prefetchToDiskCache(request, this);
+
 ```
 
 

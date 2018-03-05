@@ -12,7 +12,15 @@
         android:id="@+id/drawee"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        fresco:placeholderImage="@mipmap/ic_launcher"
+        />
+
+    <Button
+        android:id="@+id/btn_prefetch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Prefetch"
+
+        android:onClick="prefetch"
         />
 
 </android.support.constraint.ConstraintLayout>

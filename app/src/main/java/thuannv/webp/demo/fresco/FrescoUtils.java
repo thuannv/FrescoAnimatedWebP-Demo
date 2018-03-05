@@ -118,5 +118,4 @@ public final class FrescoUtils {
             animatable.stop();
         }
     }
-
 }

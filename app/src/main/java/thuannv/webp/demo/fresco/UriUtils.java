@@ -1,7 +1,6 @@
 package thuannv.webp.demo.fresco;
 
 import android.net.Uri;
-import android.support.annotation.IdRes;
 import android.util.Log;
 
 import com.facebook.common.util.UriUtil;
